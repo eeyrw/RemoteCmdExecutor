@@ -1,0 +1,33 @@
+syntax = "proto2";
+
+service CmdExecutor {
+  rpc CreateWorkspace(WorkspaceParamRequest) returns (WorkspacePathReply){}
+  rpc UploadFile(FileUploadRequest) returns (WorkspacePathReply){}
+
+}
+
+message WorkspaceParamRequest {
+    required string name  = 1;
+  optional string specificPath = 2 [default = ""];
+}
+
+message FileUploadRequest {
+    required string path  = 1;
+}
+
+message WorkspacePathReply{
+    required string path = 1;
+    required bool isSuccessful = 2;
+}
+
+message WorkspacePathReply{
+    required string path = 1;
+    required bool isSuccessful = 2;
+}
+
+
+message CmdResultReply{
+    required sint32 returnCode = 1;
+    required bytes stdout = 2;
+    required bytes stderr = 3;
+}
