@@ -3,6 +3,9 @@ syntax = "proto2";
 service CmdExecutor {
   rpc CreateWorkspace(WorkspaceParamRequest) returns (WorkspacePathReply){}
   rpc UploadFile(FileUploadRequest) returns (WorkspacePathReply){}
+  rpc DownloadFile(FileDownloadRequest) returns (FileDownloadReply){}
+  rpc RunCmd(RunCmdRequest) returns (CmdResultReply){}
+  rpc DeleteWorkspace(WorkspaceParamRequest) returns (WorkspacePathReply){}
 
 }
 
@@ -13,18 +16,28 @@ message WorkspaceParamRequest {
 
 message FileUploadRequest {
     required string path  = 1;
+    required bytes fileContent = 2;
 }
+
+message FileDownloadRequest {
+    required string path  = 1;
+}
+
+message RunCmdRequest {
+    required string cmdString  = 1;
+}
+
 
 message WorkspacePathReply{
     required string path = 1;
     required bool isSuccessful = 2;
 }
 
-message WorkspacePathReply{
+message FileDownloadReply{
     required string path = 1;
     required bool isSuccessful = 2;
+    required  bytes fileContent = 3;
 }
-
 
 message CmdResultReply{
     required sint32 returnCode = 1;

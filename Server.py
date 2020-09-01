@@ -2,19 +2,127 @@ from concurrent import futures
 import grpc
 import PrimitiveProtocol_pb2
 import PrimitiveProtocol_pb2_grpc
-
-
+import os
+import shutil
+import subprocess
 
 
 class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
-    def CreateWorkspace(self, request, context):
-        print("CreateWorkspace function called")
-        return PrimitiveProtocol_pb2.WorkspacePathReply(
-            path='',
-            isSuccessful=False
-        )
+    def __init__(self):
+        self.tempDir = './temp'
+        self.createDir(self.tempDir)
 
-    
+    def CreateWorkspace(self, request, context):
+        result = False
+        print("CreateWorkspace function called")
+        dirName = request.name
+        dirSpecificPath = request.specificPath
+        if dirSpecificPath is not '':
+            finalDir = os.path.join(self.tempDir, dirSpecificPath)
+        else:
+            finalDir = os.path.join(self.tempDir, dirName)
+
+        try:
+            self.overwriteDir(finalDir)
+            result = True
+        except Exception as e:
+            print(e)
+        finally:
+            relDir = os.path.relpath(finalDir, self.tempDir)
+            return PrimitiveProtocol_pb2.WorkspacePathReply(
+                path=relDir,
+                isSuccessful=result
+            )
+
+    def DeleteWorkspace(self, request, context):
+        result = False
+        print("DeleteWorkspace function called")
+        dirName = request.name
+        dirSpecificPath = request.specificPath
+        if dirSpecificPath is not '':
+            finalDir = os.path.join(self.tempDir, dirSpecificPath)
+        else:
+            finalDir = os.path.join(self.tempDir, dirName)
+
+        try:
+            shutil.rmtree(finalDir)
+            result = True
+        except Exception as e:
+            print(e)
+        finally:
+            relDir = os.path.relpath(finalDir, self.tempDir)
+            return PrimitiveProtocol_pb2.WorkspacePathReply(
+                path=relDir,
+                isSuccessful=result
+            )
+
+    def UploadFile(self, request, context):
+        result = False
+        filePath = request.path
+        fileContent = request.fileContent
+        finalDir = os.path.join(self.tempDir, filePath)
+
+        try:
+            self.overwriteDir(os.path.dirname(finalDir))
+            with open(finalDir, 'wb') as f:
+                f.write(fileContent)
+            result = True
+        except Exception as e:
+            print(e)
+        finally:
+            relDir = os.path.relpath(finalDir, self.tempDir)
+            return PrimitiveProtocol_pb2.WorkspacePathReply(
+                path=relDir,
+                isSuccessful=result
+            )
+
+    def DownloadFile(self, request, context):
+        result = False
+        fileContent = bytearray()
+        filePath = request.path
+        finalDir = os.path.join(self.tempDir, filePath)
+
+        try:
+            with open(finalDir, 'rb') as f:
+                fileContent = f.read()
+            result = True
+        except Exception as e:
+            print(e)
+        finally:
+            relDir = os.path.relpath(finalDir, self.tempDir)
+            return PrimitiveProtocol_pb2.FileDownloadReply(
+                path=relDir,
+                isSuccessful=result,
+                fileContent=fileContent
+            )
+
+    def RunCmd(self, request, context):
+        returnCode = 1
+        out = ''.encode('utf8')
+        err = ''.encode('utf8')
+        try:
+            proc = subprocess.Popen(
+                request.cmdString, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            out, err = proc.communicate()
+            returnCode = proc.returncode
+        except Exception as e:
+            print(e)
+        finally:
+            return PrimitiveProtocol_pb2.CmdResultReply(
+                returnCode=returnCode,
+                stdout=out,
+                stderr=err
+            )
+
+    def overwriteDir(self, dir):
+        if os.path.exists(dir):
+            shutil.rmtree(dir)
+        os.makedirs(dir)
+
+    def createDir(self, dir):
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+
 
 def serve():
     MAX_MESSAGE_LENGTH = 100*1024*1024

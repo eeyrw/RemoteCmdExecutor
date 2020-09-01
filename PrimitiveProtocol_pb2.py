@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x17PrimitiveProtocol.proto\"=\n\x15WorkspaceParamRequest\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x16\n\x0cspecificPath\x18\x02 \x01(\t:\x00\"8\n\x12WorkspacePathReply\x12\x0c\n\x04path\x18\x01 \x02(\t\x12\x14\n\x0cisSuccessful\x18\x02 \x02(\x08\x32O\n\x0b\x43mdExecutor\x12@\n\x0f\x43reateWorkspace\x12\x16.WorkspaceParamRequest\x1a\x13.WorkspacePathReply\"\x00'
+  serialized_pb=b'\n\x17PrimitiveProtocol.proto\"=\n\x15WorkspaceParamRequest\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x16\n\x0cspecificPath\x18\x02 \x01(\t:\x00\"6\n\x11\x46ileUploadRequest\x12\x0c\n\x04path\x18\x01 \x02(\t\x12\x13\n\x0b\x66ileContent\x18\x02 \x02(\x0c\"#\n\x13\x46ileDownloadRequest\x12\x0c\n\x04path\x18\x01 \x02(\t\"\"\n\rRunCmdRequest\x12\x11\n\tcmdString\x18\x01 \x02(\t\"8\n\x12WorkspacePathReply\x12\x0c\n\x04path\x18\x01 \x02(\t\x12\x14\n\x0cisSuccessful\x18\x02 \x02(\x08\"L\n\x11\x46ileDownloadReply\x12\x0c\n\x04path\x18\x01 \x02(\t\x12\x14\n\x0cisSuccessful\x18\x02 \x02(\x08\x12\x13\n\x0b\x66ileContent\x18\x03 \x02(\x0c\"D\n\x0e\x43mdResultReply\x12\x12\n\nreturnCode\x18\x01 \x02(\x11\x12\x0e\n\x06stdout\x18\x02 \x02(\x0c\x12\x0e\n\x06stderr\x18\x03 \x02(\x0c\x32\xb3\x02\n\x0b\x43mdExecutor\x12@\n\x0f\x43reateWorkspace\x12\x16.WorkspaceParamRequest\x1a\x13.WorkspacePathReply\"\x00\x12\x37\n\nUploadFile\x12\x12.FileUploadRequest\x1a\x13.WorkspacePathReply\"\x00\x12:\n\x0c\x44ownloadFile\x12\x14.FileDownloadRequest\x1a\x12.FileDownloadReply\"\x00\x12+\n\x06RunCmd\x12\x0e.RunCmdRequest\x1a\x0f.CmdResultReply\"\x00\x12@\n\x0f\x44\x65leteWorkspace\x12\x16.WorkspaceParamRequest\x1a\x13.WorkspacePathReply\"\x00'
 )
 
 
@@ -64,6 +64,109 @@ _WORKSPACEPARAMREQUEST = _descriptor.Descriptor(
 )
 
 
+_FILEUPLOADREQUEST = _descriptor.Descriptor(
+  name='FileUploadRequest',
+  full_name='FileUploadRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='path', full_name='FileUploadRequest.path', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='fileContent', full_name='FileUploadRequest.fileContent', index=1,
+      number=2, type=12, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=90,
+  serialized_end=144,
+)
+
+
+_FILEDOWNLOADREQUEST = _descriptor.Descriptor(
+  name='FileDownloadRequest',
+  full_name='FileDownloadRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='path', full_name='FileDownloadRequest.path', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=146,
+  serialized_end=181,
+)
+
+
+_RUNCMDREQUEST = _descriptor.Descriptor(
+  name='RunCmdRequest',
+  full_name='RunCmdRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='cmdString', full_name='RunCmdRequest.cmdString', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=183,
+  serialized_end=217,
+)
+
+
 _WORKSPACEPATHREPLY = _descriptor.Descriptor(
   name='WorkspacePathReply',
   full_name='WorkspacePathReply',
@@ -98,12 +201,109 @@ _WORKSPACEPATHREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=90,
-  serialized_end=146,
+  serialized_start=219,
+  serialized_end=275,
+)
+
+
+_FILEDOWNLOADREPLY = _descriptor.Descriptor(
+  name='FileDownloadReply',
+  full_name='FileDownloadReply',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='path', full_name='FileDownloadReply.path', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='isSuccessful', full_name='FileDownloadReply.isSuccessful', index=1,
+      number=2, type=8, cpp_type=7, label=2,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='fileContent', full_name='FileDownloadReply.fileContent', index=2,
+      number=3, type=12, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=277,
+  serialized_end=353,
+)
+
+
+_CMDRESULTREPLY = _descriptor.Descriptor(
+  name='CmdResultReply',
+  full_name='CmdResultReply',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='returnCode', full_name='CmdResultReply.returnCode', index=0,
+      number=1, type=17, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='stdout', full_name='CmdResultReply.stdout', index=1,
+      number=2, type=12, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='stderr', full_name='CmdResultReply.stderr', index=2,
+      number=3, type=12, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=355,
+  serialized_end=423,
 )
 
 DESCRIPTOR.message_types_by_name['WorkspaceParamRequest'] = _WORKSPACEPARAMREQUEST
+DESCRIPTOR.message_types_by_name['FileUploadRequest'] = _FILEUPLOADREQUEST
+DESCRIPTOR.message_types_by_name['FileDownloadRequest'] = _FILEDOWNLOADREQUEST
+DESCRIPTOR.message_types_by_name['RunCmdRequest'] = _RUNCMDREQUEST
 DESCRIPTOR.message_types_by_name['WorkspacePathReply'] = _WORKSPACEPATHREPLY
+DESCRIPTOR.message_types_by_name['FileDownloadReply'] = _FILEDOWNLOADREPLY
+DESCRIPTOR.message_types_by_name['CmdResultReply'] = _CMDRESULTREPLY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 WorkspaceParamRequest = _reflection.GeneratedProtocolMessageType('WorkspaceParamRequest', (_message.Message,), {
@@ -113,12 +313,47 @@ WorkspaceParamRequest = _reflection.GeneratedProtocolMessageType('WorkspaceParam
   })
 _sym_db.RegisterMessage(WorkspaceParamRequest)
 
+FileUploadRequest = _reflection.GeneratedProtocolMessageType('FileUploadRequest', (_message.Message,), {
+  'DESCRIPTOR' : _FILEUPLOADREQUEST,
+  '__module__' : 'PrimitiveProtocol_pb2'
+  # @@protoc_insertion_point(class_scope:FileUploadRequest)
+  })
+_sym_db.RegisterMessage(FileUploadRequest)
+
+FileDownloadRequest = _reflection.GeneratedProtocolMessageType('FileDownloadRequest', (_message.Message,), {
+  'DESCRIPTOR' : _FILEDOWNLOADREQUEST,
+  '__module__' : 'PrimitiveProtocol_pb2'
+  # @@protoc_insertion_point(class_scope:FileDownloadRequest)
+  })
+_sym_db.RegisterMessage(FileDownloadRequest)
+
+RunCmdRequest = _reflection.GeneratedProtocolMessageType('RunCmdRequest', (_message.Message,), {
+  'DESCRIPTOR' : _RUNCMDREQUEST,
+  '__module__' : 'PrimitiveProtocol_pb2'
+  # @@protoc_insertion_point(class_scope:RunCmdRequest)
+  })
+_sym_db.RegisterMessage(RunCmdRequest)
+
 WorkspacePathReply = _reflection.GeneratedProtocolMessageType('WorkspacePathReply', (_message.Message,), {
   'DESCRIPTOR' : _WORKSPACEPATHREPLY,
   '__module__' : 'PrimitiveProtocol_pb2'
   # @@protoc_insertion_point(class_scope:WorkspacePathReply)
   })
 _sym_db.RegisterMessage(WorkspacePathReply)
+
+FileDownloadReply = _reflection.GeneratedProtocolMessageType('FileDownloadReply', (_message.Message,), {
+  'DESCRIPTOR' : _FILEDOWNLOADREPLY,
+  '__module__' : 'PrimitiveProtocol_pb2'
+  # @@protoc_insertion_point(class_scope:FileDownloadReply)
+  })
+_sym_db.RegisterMessage(FileDownloadReply)
+
+CmdResultReply = _reflection.GeneratedProtocolMessageType('CmdResultReply', (_message.Message,), {
+  'DESCRIPTOR' : _CMDRESULTREPLY,
+  '__module__' : 'PrimitiveProtocol_pb2'
+  # @@protoc_insertion_point(class_scope:CmdResultReply)
+  })
+_sym_db.RegisterMessage(CmdResultReply)
 
 
 
@@ -129,13 +364,53 @@ _CMDEXECUTOR = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=148,
-  serialized_end=227,
+  serialized_start=426,
+  serialized_end=733,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateWorkspace',
     full_name='CmdExecutor.CreateWorkspace',
     index=0,
+    containing_service=None,
+    input_type=_WORKSPACEPARAMREQUEST,
+    output_type=_WORKSPACEPATHREPLY,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='UploadFile',
+    full_name='CmdExecutor.UploadFile',
+    index=1,
+    containing_service=None,
+    input_type=_FILEUPLOADREQUEST,
+    output_type=_WORKSPACEPATHREPLY,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='DownloadFile',
+    full_name='CmdExecutor.DownloadFile',
+    index=2,
+    containing_service=None,
+    input_type=_FILEDOWNLOADREQUEST,
+    output_type=_FILEDOWNLOADREPLY,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='RunCmd',
+    full_name='CmdExecutor.RunCmd',
+    index=3,
+    containing_service=None,
+    input_type=_RUNCMDREQUEST,
+    output_type=_CMDRESULTREPLY,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='DeleteWorkspace',
+    full_name='CmdExecutor.DeleteWorkspace',
+    index=4,
     containing_service=None,
     input_type=_WORKSPACEPARAMREQUEST,
     output_type=_WORKSPACEPATHREPLY,

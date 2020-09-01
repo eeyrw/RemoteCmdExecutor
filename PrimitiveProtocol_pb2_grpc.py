@@ -19,6 +19,26 @@ class CmdExecutorStub(object):
                 request_serializer=PrimitiveProtocol__pb2.WorkspaceParamRequest.SerializeToString,
                 response_deserializer=PrimitiveProtocol__pb2.WorkspacePathReply.FromString,
                 )
+        self.UploadFile = channel.unary_unary(
+                '/CmdExecutor/UploadFile',
+                request_serializer=PrimitiveProtocol__pb2.FileUploadRequest.SerializeToString,
+                response_deserializer=PrimitiveProtocol__pb2.WorkspacePathReply.FromString,
+                )
+        self.DownloadFile = channel.unary_unary(
+                '/CmdExecutor/DownloadFile',
+                request_serializer=PrimitiveProtocol__pb2.FileDownloadRequest.SerializeToString,
+                response_deserializer=PrimitiveProtocol__pb2.FileDownloadReply.FromString,
+                )
+        self.RunCmd = channel.unary_unary(
+                '/CmdExecutor/RunCmd',
+                request_serializer=PrimitiveProtocol__pb2.RunCmdRequest.SerializeToString,
+                response_deserializer=PrimitiveProtocol__pb2.CmdResultReply.FromString,
+                )
+        self.DeleteWorkspace = channel.unary_unary(
+                '/CmdExecutor/DeleteWorkspace',
+                request_serializer=PrimitiveProtocol__pb2.WorkspaceParamRequest.SerializeToString,
+                response_deserializer=PrimitiveProtocol__pb2.WorkspacePathReply.FromString,
+                )
 
 
 class CmdExecutorServicer(object):
@@ -30,11 +50,55 @@ class CmdExecutorServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def UploadFile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DownloadFile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RunCmd(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DeleteWorkspace(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_CmdExecutorServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'CreateWorkspace': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateWorkspace,
+                    request_deserializer=PrimitiveProtocol__pb2.WorkspaceParamRequest.FromString,
+                    response_serializer=PrimitiveProtocol__pb2.WorkspacePathReply.SerializeToString,
+            ),
+            'UploadFile': grpc.unary_unary_rpc_method_handler(
+                    servicer.UploadFile,
+                    request_deserializer=PrimitiveProtocol__pb2.FileUploadRequest.FromString,
+                    response_serializer=PrimitiveProtocol__pb2.WorkspacePathReply.SerializeToString,
+            ),
+            'DownloadFile': grpc.unary_unary_rpc_method_handler(
+                    servicer.DownloadFile,
+                    request_deserializer=PrimitiveProtocol__pb2.FileDownloadRequest.FromString,
+                    response_serializer=PrimitiveProtocol__pb2.FileDownloadReply.SerializeToString,
+            ),
+            'RunCmd': grpc.unary_unary_rpc_method_handler(
+                    servicer.RunCmd,
+                    request_deserializer=PrimitiveProtocol__pb2.RunCmdRequest.FromString,
+                    response_serializer=PrimitiveProtocol__pb2.CmdResultReply.SerializeToString,
+            ),
+            'DeleteWorkspace': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteWorkspace,
                     request_deserializer=PrimitiveProtocol__pb2.WorkspaceParamRequest.FromString,
                     response_serializer=PrimitiveProtocol__pb2.WorkspacePathReply.SerializeToString,
             ),
@@ -60,6 +124,74 @@ class CmdExecutor(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/CmdExecutor/CreateWorkspace',
+            PrimitiveProtocol__pb2.WorkspaceParamRequest.SerializeToString,
+            PrimitiveProtocol__pb2.WorkspacePathReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UploadFile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/CmdExecutor/UploadFile',
+            PrimitiveProtocol__pb2.FileUploadRequest.SerializeToString,
+            PrimitiveProtocol__pb2.WorkspacePathReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DownloadFile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/CmdExecutor/DownloadFile',
+            PrimitiveProtocol__pb2.FileDownloadRequest.SerializeToString,
+            PrimitiveProtocol__pb2.FileDownloadReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RunCmd(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/CmdExecutor/RunCmd',
+            PrimitiveProtocol__pb2.RunCmdRequest.SerializeToString,
+            PrimitiveProtocol__pb2.CmdResultReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DeleteWorkspace(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/CmdExecutor/DeleteWorkspace',
             PrimitiveProtocol__pb2.WorkspaceParamRequest.SerializeToString,
             PrimitiveProtocol__pb2.WorkspacePathReply.FromString,
             options, channel_credentials,
