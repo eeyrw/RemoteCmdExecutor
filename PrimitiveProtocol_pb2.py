@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x17PrimitiveProtocol.proto\"=\n\x15WorkspaceParamRequest\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x16\n\x0cspecificPath\x18\x02 \x01(\t:\x00\"6\n\x11\x46ileUploadRequest\x12\x0c\n\x04path\x18\x01 \x02(\t\x12\x13\n\x0b\x66ileContent\x18\x02 \x02(\x0c\"#\n\x13\x46ileDownloadRequest\x12\x0c\n\x04path\x18\x01 \x02(\t\"\"\n\rRunCmdRequest\x12\x11\n\tcmdString\x18\x01 \x02(\t\"8\n\x12WorkspacePathReply\x12\x0c\n\x04path\x18\x01 \x02(\t\x12\x14\n\x0cisSuccessful\x18\x02 \x02(\x08\"L\n\x11\x46ileDownloadReply\x12\x0c\n\x04path\x18\x01 \x02(\t\x12\x14\n\x0cisSuccessful\x18\x02 \x02(\x08\x12\x13\n\x0b\x66ileContent\x18\x03 \x02(\x0c\"D\n\x0e\x43mdResultReply\x12\x12\n\nreturnCode\x18\x01 \x02(\x11\x12\x0e\n\x06stdout\x18\x02 \x02(\x0c\x12\x0e\n\x06stderr\x18\x03 \x02(\x0c\x32\xb3\x02\n\x0b\x43mdExecutor\x12@\n\x0f\x43reateWorkspace\x12\x16.WorkspaceParamRequest\x1a\x13.WorkspacePathReply\"\x00\x12\x37\n\nUploadFile\x12\x12.FileUploadRequest\x1a\x13.WorkspacePathReply\"\x00\x12:\n\x0c\x44ownloadFile\x12\x14.FileDownloadRequest\x1a\x12.FileDownloadReply\"\x00\x12+\n\x06RunCmd\x12\x0e.RunCmdRequest\x1a\x0f.CmdResultReply\"\x00\x12@\n\x0f\x44\x65leteWorkspace\x12\x16.WorkspaceParamRequest\x1a\x13.WorkspacePathReply\"\x00'
+  serialized_pb=b'\n\x17PrimitiveProtocol.proto\"=\n\x15WorkspaceParamRequest\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x16\n\x0cspecificPath\x18\x02 \x01(\t:\x00\"6\n\x11\x46ileUploadRequest\x12\x0c\n\x04path\x18\x01 \x02(\t\x12\x13\n\x0b\x66ileContent\x18\x02 \x02(\x0c\"#\n\x13\x46ileDownloadRequest\x12\x0c\n\x04path\x18\x01 \x02(\t\"9\n\rRunCmdRequest\x12\x11\n\tcmdString\x18\x01 \x02(\t\x12\x15\n\ncurrentDir\x18\x02 \x01(\t:\x01.\"8\n\x12WorkspacePathReply\x12\x0c\n\x04path\x18\x01 \x02(\t\x12\x14\n\x0cisSuccessful\x18\x02 \x02(\x08\"L\n\x11\x46ileDownloadReply\x12\x0c\n\x04path\x18\x01 \x02(\t\x12\x14\n\x0cisSuccessful\x18\x02 \x02(\x08\x12\x13\n\x0b\x66ileContent\x18\x03 \x02(\x0c\"D\n\x0e\x43mdResultReply\x12\x12\n\nreturnCode\x18\x01 \x02(\x11\x12\x0e\n\x06stdout\x18\x02 \x02(\x0c\x12\x0e\n\x06stderr\x18\x03 \x02(\x0c\x32\xb3\x02\n\x0b\x43mdExecutor\x12@\n\x0f\x43reateWorkspace\x12\x16.WorkspaceParamRequest\x1a\x13.WorkspacePathReply\"\x00\x12\x37\n\nUploadFile\x12\x12.FileUploadRequest\x1a\x13.WorkspacePathReply\"\x00\x12:\n\x0c\x44ownloadFile\x12\x14.FileDownloadRequest\x1a\x12.FileDownloadReply\"\x00\x12+\n\x06RunCmd\x12\x0e.RunCmdRequest\x1a\x0f.CmdResultReply\"\x00\x12@\n\x0f\x44\x65leteWorkspace\x12\x16.WorkspaceParamRequest\x1a\x13.WorkspacePathReply\"\x00'
 )
 
 
@@ -150,6 +150,13 @@ _RUNCMDREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='currentDir', full_name='RunCmdRequest.currentDir', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=True, default_value=b".".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -163,7 +170,7 @@ _RUNCMDREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=183,
-  serialized_end=217,
+  serialized_end=240,
 )
 
 
@@ -201,8 +208,8 @@ _WORKSPACEPATHREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=219,
-  serialized_end=275,
+  serialized_start=242,
+  serialized_end=298,
 )
 
 
@@ -247,8 +254,8 @@ _FILEDOWNLOADREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=277,
-  serialized_end=353,
+  serialized_start=300,
+  serialized_end=376,
 )
 
 
@@ -293,8 +300,8 @@ _CMDRESULTREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=355,
-  serialized_end=423,
+  serialized_start=378,
+  serialized_end=446,
 )
 
 DESCRIPTOR.message_types_by_name['WorkspaceParamRequest'] = _WORKSPACEPARAMREQUEST
@@ -364,8 +371,8 @@ _CMDEXECUTOR = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=426,
-  serialized_end=733,
+  serialized_start=449,
+  serialized_end=756,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateWorkspace',

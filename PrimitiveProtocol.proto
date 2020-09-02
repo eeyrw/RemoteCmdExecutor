@@ -25,6 +25,7 @@ message FileDownloadRequest {
 
 message RunCmdRequest {
     required string cmdString  = 1;
+optional string currentDir = 2 [default = "."];
 }
 
 

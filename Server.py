@@ -100,9 +100,15 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
         returnCode = 1
         out = ''.encode('utf8')
         err = ''.encode('utf8')
+        finalCurrentDir = os.path.join(self.tempDir, request.currentDir)
         try:
             proc = subprocess.Popen(
-                request.cmdString, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                request.cmdString,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                cwd=finalCurrentDir
+            )
             out, err = proc.communicate()
             returnCode = proc.returncode
         except Exception as e:
