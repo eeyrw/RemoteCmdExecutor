@@ -61,7 +61,6 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
         filePath = request.path
         fileContent = request.fileContent
         finalDir = os.path.join(self.tempDir, filePath)
-
         try:
             self.overwriteDir(os.path.dirname(finalDir))
             with open(finalDir, 'wb') as f:
@@ -81,7 +80,6 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
         fileContent = bytearray()
         filePath = request.path
         finalDir = os.path.join(self.tempDir, filePath)
-
         try:
             with open(finalDir, 'rb') as f:
                 fileContent = f.read()
@@ -133,7 +131,8 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
 def serve():
     MAX_MESSAGE_LENGTH = 100*1024*1024
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=5), options=[(
-        'grpc.max_send_message_length', MAX_MESSAGE_LENGTH), ('grpc.max_receive_message_length', MAX_MESSAGE_LENGTH)])
+        'grpc.max_send_message_length', MAX_MESSAGE_LENGTH),
+        ('grpc.max_receive_message_length', MAX_MESSAGE_LENGTH)])
     PrimitiveProtocol_pb2_grpc.add_CmdExecutorServicer_to_server(
         CmdExecutorServicer(), server)
     server.add_insecure_port("[::]:50051")

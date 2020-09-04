@@ -11,7 +11,7 @@ service CmdExecutor {
 
 message WorkspaceParamRequest {
     required string name  = 1;
-  optional string specificPath = 2 [default = ""];
+    optional string specificPath = 2 [default = ""];
 }
 
 message FileUploadRequest {
@@ -25,7 +25,7 @@ message FileDownloadRequest {
 
 message RunCmdRequest {
     required string cmdString  = 1;
-optional string currentDir = 2 [default = "."];
+    optional string currentDir = 2 [default = "."];
 }
 
 
@@ -37,7 +37,7 @@ message WorkspacePathReply{
 message FileDownloadReply{
     required string path = 1;
     required bool isSuccessful = 2;
-    required  bytes fileContent = 3;
+    required bytes fileContent = 3;
 }
 
 message CmdResultReply{
