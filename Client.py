@@ -15,8 +15,9 @@ class RemoteCmdExecutor:
         self.genFileParamDict()
         cmdString = cmdString.format(**self.fileParamDict)
         self.upload()
-        self.remoteMethod.runCmd(cmdString, self.workspaceName)
+        returnCode = self.remoteMethod.runCmd(cmdString, self.workspaceName)
         self.download()
+        return returnCode
 
     def genFileParamDict(self):
         self.fileParamDict = {k:v[2] for k,v in self.fileInfoDict.items()}
@@ -25,13 +26,13 @@ class RemoteCmdExecutor:
         remoteFileName = os.path.normpath(
             filePath).replace('\\', '_').replace('/', '_')
         self.fileInfoDict[name] = ('UPLOAD', filePath, remoteFileName)
-        print(remoteFileName)
+        return name
 
     def addRemoteFile(self, name, filePath):
         remoteFileName = os.path.normpath(
             filePath).replace('\\', '_').replace('/', '_')
-        print(remoteFileName)
         self.fileInfoDict[name] = ('DOWNLOAD', filePath, remoteFileName)
+        return name
 
     def upload(self):
         for _, (fileType, fileLocalPath, remoteFileName) in self.fileInfoDict.items():
@@ -50,10 +51,11 @@ class RemoteCmdExecutor:
 
 
 class RemoteWorkEnv:
-    def __init__(self, workspaceName, address):
+    def __init__(self, workspaceName, address, keepEnv = False):
         self.workspaceName = workspaceName
         self.address = address
         self.remoteMethod = RemoteMethod(self.address)
+        self.keepEnv = keepEnv
 
     def __enter__(self):
         self.remoteMethod.createWorkspace(self.workspaceName)
@@ -64,7 +66,8 @@ class RemoteWorkEnv:
     def __exit__(self, type, value, traceback):
         if traceback is None:
             # No exception, so commit
-            self.remoteMethod.deleteWorkspace(self.workspaceName)
+            if not self.keepEnv:
+                self.remoteMethod.deleteWorkspace(self.workspaceName)
         else:
             # Exception occurred, so rollback.
             print(traceback)
@@ -123,6 +126,7 @@ class RemoteMethod:
         print(response.stdout.decode('gbk'))
         print('=====Remote Stderr=======')
         print(response.stderr.decode('gbk'))
+        return response.returnCode
 
     def createDir(self, dir):
         if not os.path.exists(dir):
@@ -130,7 +134,8 @@ class RemoteMethod:
 
 
 if __name__ == "__main__":
-    with RemoteWorkEnv('Test_R','localhost') as executor:
+    with RemoteWorkEnv('Test_R','localhost',keepEnv=True) as executor:
         executor.addLocalFile('localF', './Client.py')
+        executor.addLocalFile('localF', './GenPyFromProto.bat')
         executor.addRemoteFile('remoteF', './Client_FromRemote.py')
         executor.run('copy {localF} {remoteF}')
