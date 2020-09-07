@@ -13,26 +13,30 @@ class RemoteCmdExecutor:
 
     def run(self, cmdString):
         self.genFileParamDict()
-        cmdString = cmdString.format(**self.fileParamDict)
+        print(self.fileParamDict)
         self.upload()
         returnCode = self.remoteMethod.runCmd(cmdString, self.workspaceName)
         self.download()
         return returnCode
 
     def genFileParamDict(self):
-        self.fileParamDict = {k:v[2] for k,v in self.fileInfoDict.items()}
+        self.fileParamDict = {k: v[2] for k, v in self.fileInfoDict.items()}
 
-    def addLocalFile(self, name, filePath):
+    def addLocalFile(self, filePath, name=''):
         remoteFileName = os.path.normpath(
             filePath).replace('\\', '_').replace('/', '_')
+        if name == '':
+            name = remoteFileName.replace('.', '_')
         self.fileInfoDict[name] = ('UPLOAD', filePath, remoteFileName)
-        return name
+        return remoteFileName
 
-    def addRemoteFile(self, name, filePath):
+    def addRemoteFile(self, filePath, name=''):
         remoteFileName = os.path.normpath(
             filePath).replace('\\', '_').replace('/', '_')
+        if name == '':
+            name = remoteFileName.replace('.', '_')
         self.fileInfoDict[name] = ('DOWNLOAD', filePath, remoteFileName)
-        return name
+        return remoteFileName
 
     def upload(self):
         for _, (fileType, fileLocalPath, remoteFileName) in self.fileInfoDict.items():
@@ -51,7 +55,7 @@ class RemoteCmdExecutor:
 
 
 class RemoteWorkEnv:
-    def __init__(self, workspaceName, address, keepEnv = False):
+    def __init__(self, workspaceName, address, keepEnv=False):
         self.workspaceName = workspaceName
         self.address = address
         self.remoteMethod = RemoteMethod(self.address)
@@ -72,7 +76,6 @@ class RemoteWorkEnv:
             # Exception occurred, so rollback.
             print(traceback)
             # return False
-
 
 
 class RemoteMethod:
@@ -134,8 +137,7 @@ class RemoteMethod:
 
 
 if __name__ == "__main__":
-    with RemoteWorkEnv('Test_R','localhost',keepEnv=True) as executor:
-        executor.addLocalFile('localF', './Client.py')
-        executor.addLocalFile('localF', './GenPyFromProto.bat')
-        executor.addRemoteFile('remoteF', './Client_FromRemote.py')
-        executor.run('copy {localF} {remoteF}')
+    with RemoteWorkEnv('Test_R', 'localhost', keepEnv=True) as executor:
+        localF = executor.addLocalFile('./Client.py')
+        remoteF = executor.addRemoteFile('./Client_FromRemote.py')
+        executor.run(f'copy {localF} {remoteF}')
