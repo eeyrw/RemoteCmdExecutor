@@ -12,8 +12,6 @@ class RemoteCmdExecutor:
         self.remoteMethod = remoteMethod
 
     def run(self, cmdString):
-        self.genFileParamDict()
-        print(self.fileParamDict)
         self.upload()
         returnCode = self.remoteMethod.runCmd(cmdString, self.workspaceName)
         self.download()
@@ -82,6 +80,8 @@ class RemoteMethod:
     def __init__(self, remoteAddress='localhost'):
         self.channel = grpc.insecure_channel(
             '%s:50051' % remoteAddress,
+            options=[('grpc.max_send_message_length', 100 * 1024 * 1024),
+                     ('grpc.max_receive_message_length', 100 * 1024 * 1024)]
         )  # 连接上gRPC服务端
         self.stub = PrimitiveProtocol_pb2_grpc.CmdExecutorStub(self.channel)
 
@@ -105,7 +105,7 @@ class RemoteMethod:
                 path=remotePath,
                 fileContent=fileContent
             ))
-        print('Upload: %s'%remotePath)
+        print('Upload: %s' % remotePath)
         return response.isSuccessful
 
     def downloadFile(self, remotePath, localPath):
@@ -113,7 +113,9 @@ class RemoteMethod:
             PrimitiveProtocol_pb2.FileDownloadRequest(
                 path=remotePath
             ))
-        self.createDir(os.path.dirname(localPath))
+        print('Download: %s' % localPath)
+        if os.path.dirname(localPath)!='':
+            self.createDir(os.path.dirname(localPath))
         with open(localPath, 'wb') as f:
             f.write(response.fileContent)
 

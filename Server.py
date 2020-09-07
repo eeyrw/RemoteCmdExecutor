@@ -14,8 +14,8 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
 
     def CreateWorkspace(self, request, context):
         result = False
-        print("CreateWorkspace function called")
         dirName = request.name
+        print("CreateWorkspace: %s"%dirName)
         dirSpecificPath = request.specificPath
         if dirSpecificPath is not '':
             finalDir = os.path.join(self.tempDir, dirSpecificPath)
@@ -36,8 +36,8 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
 
     def DeleteWorkspace(self, request, context):
         result = False
-        print("DeleteWorkspace function called")
         dirName = request.name
+        print("DeleteWorkspace: %s"%dirName)
         dirSpecificPath = request.specificPath
         if dirSpecificPath is not '':
             finalDir = os.path.join(self.tempDir, dirSpecificPath)
@@ -82,6 +82,7 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
         filePath = request.path
         finalDir = os.path.join(self.tempDir, filePath)
         try:
+            print('File from server: %s'%finalDir)            
             with open(finalDir, 'rb') as f:
                 fileContent = f.read()
             result = True
@@ -101,6 +102,7 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
         err = ''.encode('utf8')
         finalCurrentDir = os.path.join(self.tempDir, request.currentDir)
         try:
+            print('RunCmd: %s'%request.cmdString)     
             proc = subprocess.Popen(
                 request.cmdString,
                 shell=True,
@@ -112,7 +114,7 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
             returnCode = proc.returncode
         except Exception as e:
             print(e)
-        finally:
+        finally:       
             return PrimitiveProtocol_pb2.CmdResultReply(
                 returnCode=returnCode,
                 stdout=out,
