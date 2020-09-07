@@ -5,6 +5,7 @@ import PrimitiveProtocol_pb2_grpc
 import os
 import shutil
 import subprocess
+import sys
 
 
 class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
@@ -15,7 +16,8 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
     def CreateWorkspace(self, request, context):
         result = False
         dirName = request.name
-        print("CreateWorkspace: %s"%dirName)
+        print("CreateWorkspace: %s" % dirName)
+        sys.stdout.flush()
         dirSpecificPath = request.specificPath
         if dirSpecificPath is not '':
             finalDir = os.path.join(self.tempDir, dirSpecificPath)
@@ -37,7 +39,8 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
     def DeleteWorkspace(self, request, context):
         result = False
         dirName = request.name
-        print("DeleteWorkspace: %s"%dirName)
+        print("DeleteWorkspace: %s" % dirName)
+        sys.stdout.flush()
         dirSpecificPath = request.specificPath
         if dirSpecificPath is not '':
             finalDir = os.path.join(self.tempDir, dirSpecificPath)
@@ -62,7 +65,8 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
         fileContent = request.fileContent
         finalDir = os.path.join(self.tempDir, filePath)
         try:
-            print('File from client: %s'%finalDir)
+            print('File from client: %s' % finalDir)
+            sys.stdout.flush()
             self.createDir(os.path.dirname(finalDir))
             with open(finalDir, 'wb') as f:
                 f.write(fileContent)
@@ -82,7 +86,8 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
         filePath = request.path
         finalDir = os.path.join(self.tempDir, filePath)
         try:
-            print('File from server: %s'%finalDir)            
+            print('File from server: %s' % finalDir)
+            sys.stdout.flush()
             with open(finalDir, 'rb') as f:
                 fileContent = f.read()
             result = True
@@ -102,7 +107,8 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
         err = ''.encode('utf8')
         finalCurrentDir = os.path.join(self.tempDir, request.currentDir)
         try:
-            print('RunCmd: %s'%request.cmdString)     
+            print('RunCmd: %s' % request.cmdString)
+            sys.stdout.flush()
             proc = subprocess.Popen(
                 request.cmdString,
                 shell=True,
@@ -114,7 +120,7 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
             returnCode = proc.returncode
         except Exception as e:
             print(e)
-        finally:       
+        finally:
             return PrimitiveProtocol_pb2.CmdResultReply(
                 returnCode=returnCode,
                 stdout=out,

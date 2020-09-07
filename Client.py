@@ -21,20 +21,33 @@ class RemoteCmdExecutor:
         self.fileParamDict = {k: v[2] for k, v in self.fileInfoDict.items()}
 
     def addLocalFile(self, filePath, name=''):
-        remoteFileName = os.path.normpath(
-            filePath).replace('\\', '_').replace('/', '_').replace(':', '_')
+        remoteFileName = self.genRemotePath(filePath)
         if name == '':
-            name = remoteFileName.replace('.', '_')
+            name = self.genPathIdentifier(filePath)
         self.fileInfoDict[name] = ('UPLOAD', filePath, remoteFileName)
         return remoteFileName
 
     def addRemoteFile(self, filePath, name=''):
-        remoteFileName = os.path.normpath(
-            filePath).replace('\\', '_').replace('/', '_').replace(':', '_')
+        remoteFileName = self.genRemotePlainPath(filePath)
         if name == '':
-            name = remoteFileName.replace('.', '_')
+            name = self.genPathIdentifier(filePath)
         self.fileInfoDict[name] = ('DOWNLOAD', filePath, remoteFileName)
         return remoteFileName
+
+    def genRemotePath(self, path):
+        remotePath = os.path.join('.', os.path.normpath(
+            os.path.abspath(path).replace(':', '/')))
+        return remotePath
+
+    def genRemotePlainPath(self, path):
+        remotePath = os.path.normpath(
+            path).replace(':', '_').replace('\\', '_').replace('/', '_')
+        return remotePath
+
+    def genPathIdentifier(self, path):
+        identifier = os.path.normpath(
+            path).replace(':', '_').replace('.', '_').replace('\\', '_').replace('/', '_')
+        return identifier
 
     def upload(self):
         for _, (fileType, fileLocalPath, remoteFileName) in self.fileInfoDict.items():
@@ -54,7 +67,8 @@ class RemoteCmdExecutor:
 
 class RemoteWorkEnv:
     def __init__(self, workspaceName, address, keepEnv=False):
-        self.workspaceName = workspaceName
+        self.workspaceName = workspaceName + \
+            '_'+str(random.randint(1000, 999999))
         self.address = address
         self.remoteMethod = RemoteMethod(self.address)
         self.keepEnv = keepEnv
@@ -114,7 +128,7 @@ class RemoteMethod:
                 path=remotePath
             ))
         print('Download: %s' % localPath)
-        if os.path.dirname(localPath)!='':
+        if os.path.dirname(localPath) != '':
             self.createDir(os.path.dirname(localPath))
         with open(localPath, 'wb') as f:
             f.write(response.fileContent)
