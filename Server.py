@@ -62,7 +62,8 @@ class CmdExecutorServicer(PrimitiveProtocol_pb2_grpc.CmdExecutor):
         fileContent = request.fileContent
         finalDir = os.path.join(self.tempDir, filePath)
         try:
-            self.overwriteDir(os.path.dirname(finalDir))
+            print('File from client: %s'%finalDir)
+            self.createDir(os.path.dirname(finalDir))
             with open(finalDir, 'wb') as f:
                 f.write(fileContent)
             result = True

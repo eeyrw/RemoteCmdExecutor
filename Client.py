@@ -1,8 +1,8 @@
-import PrimitiveProtocol_pb2
-import PrimitiveProtocol_pb2_grpc
 import grpc
 import random
 import os
+import PrimitiveProtocol_pb2
+import PrimitiveProtocol_pb2_grpc
 
 
 class RemoteCmdExecutor:
@@ -24,7 +24,7 @@ class RemoteCmdExecutor:
 
     def addLocalFile(self, filePath, name=''):
         remoteFileName = os.path.normpath(
-            filePath).replace('\\', '_').replace('/', '_')
+            filePath).replace('\\', '_').replace('/', '_').replace(':', '_')
         if name == '':
             name = remoteFileName.replace('.', '_')
         self.fileInfoDict[name] = ('UPLOAD', filePath, remoteFileName)
@@ -32,7 +32,7 @@ class RemoteCmdExecutor:
 
     def addRemoteFile(self, filePath, name=''):
         remoteFileName = os.path.normpath(
-            filePath).replace('\\', '_').replace('/', '_')
+            filePath).replace('\\', '_').replace('/', '_').replace(':', '_')
         if name == '':
             name = remoteFileName.replace('.', '_')
         self.fileInfoDict[name] = ('DOWNLOAD', filePath, remoteFileName)
@@ -105,6 +105,7 @@ class RemoteMethod:
                 path=remotePath,
                 fileContent=fileContent
             ))
+        print('Upload: %s'%remotePath)
         return response.isSuccessful
 
     def downloadFile(self, remotePath, localPath):
